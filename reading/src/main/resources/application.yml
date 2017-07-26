@@ -1,0 +1,24 @@
+server:
+  port: ${port:8082}
+  context-path: /reading
+
+bookstore:
+  url: http://localhost:8081/bookstore/recommended
+
+hystrix:
+  command:
+    default:
+      circuitBreaker:
+        enabled: true
+        errorThresholdPercentage: 50 # 50%
+        sleepWindowInMilliseconds: 5000 # 5s without trying calling the service again
+      metrics:
+        rollingStats:
+          timeInMilliseconds: 20000 #20s of statistics
+    customCommandKey:
+      fallback:
+        enabled: false
+      circuitBreaker:
+        enabled: true
+        errorThresholdPercentage: 75 # 75%
+        sleepWindowInMilliseconds: 15000 # 15s without trying calling the service again
